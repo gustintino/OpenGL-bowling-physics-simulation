@@ -1,6 +1,7 @@
 #include "PlaneCollider.h"
 
 #include "SphereCollider.h"
+#include "AABBCollider.h"
 
 PlaneCollider::PlaneCollider()
 {

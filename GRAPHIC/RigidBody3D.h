@@ -10,14 +10,16 @@ public:
 	//linear
 	glm::vec3 position;
 	glm::vec3 linearVelocity;
-	glm::vec3 linearAceleration;
+	glm::vec3 linearAcceleration;
 	glm::vec3 totalLinearForce;
+	glm::vec3 lastLinearAcceleration;
 	float mass;
 
 	//rotational
 	glm::vec3 orientation;
 	glm::vec3 angularVelocity;
 	glm::vec3 angularAcceleration;
+	glm::vec3 lastAngularAcceleration;
 	glm::vec3 torque;
 	//float momentOfInertia;
 	glm::mat3 momentOfInertia;

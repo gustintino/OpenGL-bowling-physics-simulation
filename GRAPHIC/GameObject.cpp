@@ -38,7 +38,7 @@ void GameObject::Update(float deltaTime)
 	rigid->Update(deltaTime);
 	rigid->ResetTotalForces();
 			
-	rigid->linearVelocity *= pow(0.9, deltaTime);
+	rigid->linearVelocity *= pow(0.3, deltaTime);
 
 
 	//particle.position += glm::vec3(0, .1, 0) * deltaTime;

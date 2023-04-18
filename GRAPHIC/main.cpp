@@ -171,7 +171,7 @@ public:
     
     Camera()
     {
-        cameraPosition = glm::vec3(0, 0, -2);
+        cameraPosition = glm::vec3(-12, 7, 3);
         cameraTarget = glm::vec3(0, 0, 0);
         cameraUpVector = glm::vec3(0, 1, 0);
 
@@ -183,7 +183,7 @@ public:
         //projection matrix
         //glm::mat4 projMatrix = glm::ortho(-0.1f, 0.1f, -0.1f, 0.1f, 0.01f, 10.0f);
         //glm::mat4 projMatrix = glm::frustum(-0.1f, 0.1f, -0.1f, 0.1f, 0.01f, 10.0f);
-        glm::mat4 projMatrix = glm::perspective(glm::radians(90.0f), 1.0f, 0.01f, 10.0f);
+        glm::mat4 projMatrix = glm::perspective(glm::radians(90.0f), 1.0f, 0.01f, 100.0f);
 
         glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projMatrix));
     }
@@ -245,36 +245,73 @@ int main(int argc, char** argv)
     Mesh* sphereObjRed = new ObjectFromFile("objs/sphere.obj", red, glm::vec3(1,1,1));
     Mesh* cubeObjGreen = new ObjectFromFile("objs/cube.obj", green, glm::vec3(1, 1, 1));
     Mesh* sphereWireframe = new ObjectFromFile("objs/sphere.obj", green, glm::vec3(1, 1, 1));
-    Mesh* planeMesh = new ObjectFromFile("objs/plane.obj", glm::vec4(1, 1, 1, 1), glm::vec3(10, 1, 2));
+    Mesh* planeMesh = new ObjectFromFile("objs/plane.obj", glm::vec4(1, 1, 1, 1), glm::vec3(20, 1, 4));
+    Mesh* planeMesh2 = new ObjectFromFile("objs/plane.obj", glm::vec4(1, 1, 1, 1), glm::vec3(20, 1, 1));
     Mesh* bowlingPinMesh = new ObjectFromFile("objs/bowling_pin.obj", glm::vec4(1, 1, 1, 1), glm::vec3(1, 1, 1));
     Mesh* bowlingPinWireframe = new ObjectFromFile("objs/cube.obj", glm::vec4(0, 1, 0, 1), glm::vec3(0.4f, 1.1f, 0.4f));
 
     Collider* sphereCollider = new SphereCollider(1.0f, sphereWireframe);
-    Collider* bowlingPinCollider = new AABBCollider(bowlingPinWireframe);
+
+    Collider* bowlingPinCollider1 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider2 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider3 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider4 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider5 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider6 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider7 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider8 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider9 = new AABBCollider(bowlingPinWireframe);
+    Collider* bowlingPinCollider10 = new AABBCollider(bowlingPinWireframe);
+
+    Collider* ab = new AABBCollider(bowlingPinWireframe);
 
     //GameObject* cubeObject1 = new GameObject(sphereObjRed, 3.0, glm::vec3(-1.0f, 0.0f, 0.0f), new SphereCollider(1.0f, sphereWireframe));
-    GameObject* player = new Player(sphereObjRed, 1.0f, glm::vec3(0.0f, 1.5f, 2.0f), 75.0f, sphereCollider);
+    
     //GameObject* cubeObj = new GameObject(cubeObjGreen, 1.0f, glm::vec3(-1.0f, 0.0f, 0.0f), new SphereCollider(1.0f, sphereWireframe));
 
     //GameObject* rigid = new RotatingSquare(cubeObjGreen, 1.0f, 1.0f, 5.0f, glm::vec3(0.0f, 0.0f, 2.0f));
 
-    GameObject* bowlingPin = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(0, 0, 2), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider);
-    GameObject* withCollider = new GameObject(sphereObjBlue, 2.0f, glm::vec3(-3, 1, 2), 0.0f, glm::vec3(0, 0, 0), new SphereCollider(1.0f, sphereWireframe));
-    //GameObject* plane = new GameObject(planeMesh, 1.0f, glm::vec3(0, -1, 2), 0.0f, glm::vec3(0,0,0), new PlaneCollider(planeMesh, glm::vec3(0, 1, 0)));
+    GameObject* player = new Player(sphereObjRed, 1.0f, glm::vec3(-5.0f, 1.5f, 0), 75.0f, sphereCollider);
+
+    GameObject* bowlingPin1 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(15, 0, 0), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider1);
+    GameObject* bowlingPin3 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(17, 0, -1), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider3);
+    GameObject* bowlingPin2 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(17, 0, 1), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider2);
+    GameObject* bowlingPin4 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(19, 0, -1.5), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider4);
+    GameObject* bowlingPin5 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(19, 0, 0), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider5);
+    GameObject* bowlingPin6 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(19, 0, 1.5), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider6);
+    GameObject* bowlingPin7 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(21, 0, 2), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider7);
+    GameObject* bowlingPin8 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(21, 0, 1), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider8);
+    GameObject* bowlingPin9 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(21, 0, -1), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider9);
+    GameObject* bowlingPin10 = new GameObject(bowlingPinMesh, 1.0f, glm::vec3(21, 0, -2), 0.0f, glm::vec3(0, 0, 0), bowlingPinCollider10);
+
+    GameObject* withCollider = new GameObject(sphereObjBlue, 1.0f, glm::vec3(-3, 1, 0), 0.0f, glm::vec3(0, 0, 0), new SphereCollider(1.0f, sphereWireframe));
+    GameObject* plane = new GameObject(planeMesh, 10000000.0f, glm::vec3(10, -1, 0), 0.0f, glm::vec3(0,0,0), new PlaneCollider(planeMesh, glm::vec3(0, 1, 0)));
+    GameObject* gutter1 = new GameObject(planeMesh2, 10000000.0f, glm::vec3(10, 0, 4), 0.0f, glm::vec3(glm::radians(90.0f), 0, 0), new PlaneCollider(planeMesh2, glm::vec3(0, 0, -1)));
+    GameObject* gutter2 = new GameObject(planeMesh2, 10000000.0f, glm::vec3(10, 0, -4), 0.0f, glm::vec3(glm::radians(-90.0f), 0, 0), new PlaneCollider(planeMesh2, glm::vec3(0, 0, 1)));
 
     //objects.push_back(cubeObject1);
     objects.push_back(player);
     //objects.push_back(rigid);
     //objects.push_back(cubeObj);
-    objects.push_back(withCollider);
+    //objects.push_back(withCollider);
     //objects.push_back(withCollider2);
-    //objects.push_back(plane);
-    //objects.push_back(bowlingPin);
+    objects.push_back(plane);
+    objects.push_back(gutter1);
+    objects.push_back(gutter2);
+    objects.push_back(bowlingPin1);
+    objects.push_back(bowlingPin2);
+    objects.push_back(bowlingPin3);
+    objects.push_back(bowlingPin4);
+    objects.push_back(bowlingPin5);
+    objects.push_back(bowlingPin6);
+    objects.push_back(bowlingPin7);
+    objects.push_back(bowlingPin8);
+    objects.push_back(bowlingPin9);
+    objects.push_back(bowlingPin10);
 
     ForceGenerator gravity(glm::vec3(0.0f, -9.8f, 0.0f));
-    //gravity.AddObject(cubeObject1);
-    //gravity.AddObject(cubeObj);
-    //gravity.AddObject(player);
+    gravity.AddObject(player);
+    //gravity.AddObject(bowlingPin);
 
     
     //location location location
@@ -294,9 +331,9 @@ int main(int argc, char** argv)
 
     Camera camera;
 
-    ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-    diffuseIntensity = glm::vec3(0.8f, 0.8f, 0.8f);
-    lightPosition = glm::vec3(0.0f, 1.0f, 0.0f);
+    ambient = glm::vec3(0.5f);
+    diffuseIntensity = glm::vec3(1.0f);
+    lightPosition = glm::vec3(0.0f, 3.0f, 0.0f);
     specularIntensity = glm::vec3(1.0f);
     specularColor = glm::vec3(1.0f, 1.0f, 1.0f);
     shinines = 256.0f;
@@ -330,6 +367,29 @@ int main(int argc, char** argv)
 
         camera.UpdateCamera();
 
+        if (GameObject::keyMap[GLFW_KEY_UP] == true)
+        {
+            player->collider->mesh->scale *= glm::vec3(1.01f);
+            player->mesh->scale *= glm::vec3(1.01f);
+            SphereCollider* a = (SphereCollider*)player->collider;
+            a->radius *= 1.01f;
+        }
+        else if (GameObject::keyMap[GLFW_KEY_DOWN] == true)
+        {
+            player->collider->mesh->scale /= glm::vec3(1.01f);
+            player->mesh->scale /= glm::vec3(1.01f);
+            SphereCollider* a = (SphereCollider*)player->collider;
+            a->radius /= 1.01f;
+        }
+
+        if (GameObject::keyMap[GLFW_KEY_LEFT] == true)
+        {
+            player->rigid->mass *= 1.02f;
+        }
+        else if (GameObject::keyMap[GLFW_KEY_RIGHT] == true)
+        {
+            player->rigid->mass /= 1.02f;
+        }
 
         gravity.Apply();
        

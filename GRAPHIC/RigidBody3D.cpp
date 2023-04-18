@@ -4,7 +4,7 @@ RigidBody3D::RigidBody3D()
 {
 	position = glm::vec3(0.0f, 0.0f, 0.0f);
 	linearVelocity = glm::vec3(0.0f, 0.0f, 0.0f);
-	linearAceleration = glm::vec3(0.0f, 0.0f, 0.0f);
+	linearAcceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 	mass = 0.0f;
 	totalLinearForce = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -19,7 +19,7 @@ RigidBody3D::RigidBody3D()
 RigidBody3D::RigidBody3D(float _mass, glm::vec3 _position, float _moi, glm::vec3 _orientation)
 {
 	linearVelocity = glm::vec3(0.0f, 0.0f, 0.0f);
-	linearAceleration = glm::vec3(0.0f, 0.0f, 0.0f);
+	linearAcceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 	totalLinearForce = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	angularVelocity = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -54,23 +54,36 @@ RigidBody3D::~RigidBody3D()
 
 void RigidBody3D::Update(float deltaTime)
 {
-	//rotation
-	angularAcceleration = torque * momentOfInertia; // moi = 1 / moi;
-	angularVelocity = angularVelocity + angularAcceleration * deltaTime;
-	orientation = orientation + angularVelocity * deltaTime;
 
-	//linear
-	
+	//explicit euler
+	//angularAcceleration = torque * momentOfInertia; // moi = 1 / moi;
+	//angularVelocity = angularVelocity + angularAcceleration * deltaTime;
+	//orientation = orientation + angularVelocity * deltaTime;
+	//identity = glm::rotate(identity, orientation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	//identity = glm::rotate(identity, orientation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	//identity = glm::rotate(identity, orientation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	//totalLinearForce = glm::vec3(identity * glm::vec4(totalLinearForce, 1.0f));
+	//linearAcceleration = totalLinearForce * mass; // mass = 1 / mass;
+	//linearVelocity = linearVelocity + linearAcceleration * deltaTime;
+	//position = position + linearVelocity * deltaTime;
+
+	//verlet
+	lastLinearAcceleration = linearAcceleration;
+	position += linearVelocity * deltaTime + (0.5f * lastLinearAcceleration * (float)glm::pow(deltaTime, 2));
+	linearAcceleration = totalLinearForce * mass;
+	glm::vec3 averageLinearAccel = (lastLinearAcceleration + linearAcceleration) / 2.0f;
+	linearVelocity += averageLinearAccel * deltaTime;
+
 	identity = glm::rotate(identity, orientation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 	identity = glm::rotate(identity, orientation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	identity = glm::rotate(identity, orientation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 	totalLinearForce = glm::vec3(identity * glm::vec4(totalLinearForce, 1.0f));
 
-	linearAceleration = totalLinearForce * mass; // mass = 1 / mass;
-	linearVelocity = linearVelocity + linearAceleration * deltaTime;
-	position = position + linearVelocity * deltaTime;
-
-	
+	lastAngularAcceleration = angularAcceleration;
+	orientation += angularVelocity * deltaTime + (0.5f * lastAngularAcceleration * (float)glm::pow(deltaTime, 2));
+	angularAcceleration = torque * momentOfInertia;
+	glm::vec3 averageRotationalAccel = (lastAngularAcceleration + angularAcceleration) / 2.0f;
+	angularVelocity += averageRotationalAccel * deltaTime;
 }
 
 void RigidBody3D::ResetTotalForces()

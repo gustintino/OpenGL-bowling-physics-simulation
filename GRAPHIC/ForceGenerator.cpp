@@ -14,7 +14,7 @@ void ForceGenerator::Apply()
 	for (int i = 0; i < objects.size(); i++)
 	{
 		//objects[i]->particle.ResetTotalForce();
-		objects[i]->rigid->AddForce(forceToApply, glm::vec3(0,0,0));
+		objects[i]->rigid->AddForce(forceToApply, glm::vec3(0,1,0));
 		//objects[i]->particle.Update(0.016f);
 	}
 }
